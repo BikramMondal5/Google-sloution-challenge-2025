@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Crop Disease Detection</h2>
+                <p class="card-text">Upload a photo of your plant to identify potential diseases.</p>
+                
+                <form id="diseaseForm" action="{{ url_for('analyze_disease') }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="plant_image" class="form-label">Plant Image</label>
+                        <input type="file" class="form-control" id="plant_image" name="plant_image" accept=".jpg,.jpeg,.png" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div id="imagePreview" class="d-none">
+                            <img src="" alt="Image preview" class="img-fluid rounded mb-2" style="max-height: 300px;">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Analyze Disease
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Tips for Better Results</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Take clear, well-lit photos</li>
+                    <li class="list-group-item">Focus on affected areas</li>
+                    <li class="list-group-item">Include both healthy and diseased parts</li>
+                    <li class="list-group-item">Avoid blurry or dark images</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">How It Works</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <i class="bi bi-camera"></i>
+                        <p>Upload a clear photo of your plant</p>
+                    </div>
+                    <div class="timeline-item">
+                        <i class="bi bi-laptop"></i>
+                        <p>Our system analyzes the image</p>
+                    </div>
+                    <div class="timeline-item">
+                        <i class="bi bi-clipboard-data"></i>
+                        <p>Get detailed disease information</p>
+                    </div>
+                    <div class="timeline-item">
+                        <i class="bi bi-prescription2"></i>
+                        <p>Receive treatment recommendations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('plant_image');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = imagePreview.querySelector('img');
+    
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                imagePreview.classList.remove('d-none');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+{% endblock %}

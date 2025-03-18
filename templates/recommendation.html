@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h2>Recommended Crops</h2>
+        <a href="/" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Form
+        </a>
+    </div>
+
+    {% if recommendation %}
+        {% for crop in recommendation %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <img src="{{ crop.image_url }}" class="card-img-top" alt="{{ crop.name }}">
+                <div class="card-body">
+                    <h3 class="card-title">{{ crop.name }}</h3>
+                    <p class="card-text">{{ crop.description }}</p>
+                    <div class="crop-details">
+                        <p><i class="bi bi-thermometer-half"></i> Optimal Temperature: {{ crop.optimal_temp }}</p>
+                        <p><i class="bi bi-cloud-rain"></i> Optimal Rainfall: {{ crop.optimal_rainfall }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No crops match the given conditions. Try adjusting your parameters.
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+/* Custom styles while maintaining dark theme compatibility */
+.card {
+    border: 1px solid var(--bs-border-color);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.crop-details {
+    background: var(--bs-dark);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.crop-details i {
+    margin-right: 0.5rem;
+    color: var(--bs-info);
+}
+
+/* Form styling */
+.form-label {
+    font-weight: 500;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--bs-info);
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Responsive images */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Error messages */
+.alert {
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+/* Timeline for disease detection */
+.timeline {
+    padding: 1rem;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--bs-info);
+}
+
+.timeline-item i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: var(--bs-info);
+}
+
+.timeline-item p {
+    margin: 0;
+}
+
+/* Image preview */
+#imagePreview img {
+    border: 2px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+}

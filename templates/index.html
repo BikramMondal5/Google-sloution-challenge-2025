@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <img src="https://images.unsplash.com/photo-1579457870272-896666ee7a8d" class="card-img-top" alt="Farm landscape">
+            <div class="card-body">
+                <h2 class="card-title">Crop Recommendation System</h2>
+                <p class="card-text">Get personalized crop recommendations based on your local conditions.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Enter Your Details</h3>
+                <form id="recommendationForm" action="/recommend" method="POST">
+                    <div class="mb-3">
+                        <label for="soil_type" class="form-label">Soil Type</label>
+                        <select class="form-select" id="soil_type" name="soil_type" required>
+                            <option value="">Select soil type</option>
+                            <option value="clay">Clay</option>
+                            <option value="loamy">Loamy</option>
+                            <option value="sandy">Sandy</option>
+                            <option value="black">Black</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="season" class="form-label">Season</label>
+                        <select class="form-select" id="season" name="season" required>
+                            <option value="">Select season</option>
+                            <option value="summer">Summer</option>
+                            <option value="winter">Winter</option>
+                            <option value="monsoon">Monsoon</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Weather Data</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="useCurrentWeather" name="useCurrentWeather" checked>
+                            <label class="form-check-label" for="useCurrentWeather">
+                                Use current weather data
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="manualWeatherInputs" class="d-none">
+                        <div class="mb-3">
+                            <label for="temperature" class="form-label">Average Temperature (°C)</label>
+                            <input type="number" class="form-control" id="temperature" name="temperature" 
+                                   min="0" max="50" step="0.1">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rainfall" class="form-label">Monthly Rainfall (mm)</label>
+                            <input type="number" class="form-control" id="rainfall" name="rainfall" 
+                                   min="0" max="1000" step="0.1">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Get Recommendations</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Current Weather Information</h3>
+                {% if weather_error %}
+                <div class="alert alert-warning">
+                    {{ weather_error }}
+                </div>
+                {% elif weather %}
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <img src="https://images.unsplash.com/photo-1531789694268-03cfe5989f89" alt="Temperature" class="weather-icon">
+                        <p>Temperature</p>
+                        <h4>{{ weather.temperature }}°C</h4>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <img src="https://images.unsplash.com/photo-1697525994215-0fadc6c2c593" alt="Rainfall" class="weather-icon">
+                        <p>Rainfall</p>
+                        <h4>{{ weather.rainfall }}mm</h4>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <img src="https://images.unsplash.com/photo-1640704124529-3921034f491e" alt="Humidity" class="weather-icon">
+                        <p>Humidity</p>
+                        <h4>{{ weather.humidity }}%</h4>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <img src="https://images.unsplash.com/photo-1605028262919-f90a57bf6812" alt="Condition" class="weather-icon">
+                        <p>Condition</p>
+                        <h4>{{ weather.description|title }}</h4>
+                    </div>
+                </div>
+                <p class="text-muted text-center mt-3">Last updated: {{ weather.timestamp }}</p>
+                {% else %}
+                <div class="alert alert-warning">
+                    Weather data is currently unavailable. Please try again later.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const useCurrentWeatherCheckbox = document.getElementById('useCurrentWeather');
+    const manualWeatherInputs = document.getElementById('manualWeatherInputs');
+    const temperatureInput = document.getElementById('temperature');
+    const rainfallInput = document.getElementById('rainfall');
+
+    useCurrentWeatherCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            manualWeatherInputs.classList.add('d-none');
+            temperatureInput.removeAttribute('required');
+            rainfallInput.removeAttribute('required');
+        } else {
+            manualWeatherInputs.classList.remove('d-none');
+            temperatureInput.setAttribute('required', '');
+            rainfallInput.setAttribute('required', '');
+        }
+    });
+});
+</script>
+{% endblock %}
